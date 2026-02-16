@@ -11,19 +11,7 @@ import {
 export default function RegisterScreen() {
   return (
     <View>
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
-
-      </ScrollView>
+      
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  scrollContent: {
-    paddingHorizontal: 24, // px-6
-    paddingVertical: 32, // py-8
-  }
-});

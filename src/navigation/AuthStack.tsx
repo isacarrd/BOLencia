@@ -3,17 +3,14 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 /* import LoginScreen from '../screens/auth/Login'; */
 import RegisterScreen from '../screens/auth/Register';
 import WelcomeScreen from '../screens/auth/Welcome';
+import { AuthStackParamList } from './index';
 
-const Stack = createNativeStackNavigator();
+const Auth = createNativeStackNavigator<AuthStackParamList>();
 
 export default function AuthStack() {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="Welcome" component={WelcomeScreen} />
-      <Stack.Screen name="Register" component={RegisterScreen} />
-    
-      {/* A tela que ficar no topo será a inicial por padrão */}
-      {/* <Stack.Screen name="Login" component={LoginScreen} /> */}
-    </Stack.Navigator>
+    <Auth.Navigator>
+      <Auth.Screen name='Welcome' component={WelcomeScreen}/>
+    </Auth.Navigator>
   );
 }

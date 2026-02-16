@@ -3,9 +3,10 @@ export const theme = {
     amarelo: '#FFF30F',
     roxoPadrao: '#6743AA',
     preto: '#000000',
-    branco: '#8E8E93',
+    branco: '#FBFFF1',
     roxoSecundario: '#A799B7',
     vermelhoAviso: '#DA2222',
+    cinza: '#B3B3B3',
   },
   spacing: {
     wPadrao: 24,
@@ -22,6 +23,6 @@ export const theme = {
     sm: 12,
     mdX: 14,
     md: 16,
-    bg: 24
-  }
+    bg: 24,
+  },
 };

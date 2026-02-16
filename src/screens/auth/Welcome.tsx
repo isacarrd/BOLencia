@@ -2,15 +2,21 @@ import React from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { theme } from '../../theme';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import CustomButton from '../../components/ui/Buttons';
+import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { AuthStackParamList } from '../../navigation';
 
-export default function WelcomeScreen() {
+type WelcomeScreenNavigationProp = NativeStackNavigationProp<AuthStackParamList, 'Welcome'>;
+type Props = { navigation: WelcomeScreenNavigationProp };
+
+export default function WelcomeScreen({ navigation}: Props) {
   return (
     // SafeAreaView evita que o conteúdo fique embaixo da barra de status
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView style={styles.container}>
       <ScrollView
         showsVerticalScrollIndicator={false}
         // Usamos contentContainerStyle para o padding e alinhamento interno
-        contentContainerStyle={styles.scrollContent}
+        contentContainerStyle={styles.mainContent}
       >
         {/* Mensagem de Boas Vindas */}
         <View style={styles.boasVindas}>
@@ -24,7 +30,18 @@ export default function WelcomeScreen() {
 
         {/* Aqui entrarão seus botões de Login/Cadastro depois */}
         <View style={styles.botoesArea}>
-          {/* Espaço reservado para os botões */}
+          <CustomButton
+            title="Entrar"
+            type="filled"
+            onPress={() => navigation.navigate('Login')}
+          />
+          <CustomButton
+            title="Cadastrar-se"
+            type="outlined"
+            onPress={() => {
+              // Navegação para a tela de Cadastro
+            }}
+          />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -32,21 +49,22 @@ export default function WelcomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  safe: {
+  container: {
     flex: 1,
     backgroundColor: theme.colors.preto,
+    paddingHorizontal: theme.spacing.wPadrao,
   },
-  scrollContent: {
-    padding: theme.spacing.wPadrao,
-    alignItems: 'center', 
-    paddingTop: 60, 
+  mainContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   boasVindas: {
     alignItems: 'center',
-    marginBottom: 48, 
+    marginBottom: 48,
   },
   logo: {
-    width: 150, 
+    width: 150,
     height: 145,
     marginBottom: 28,
   },
