@@ -2,9 +2,10 @@ export const theme = {
   colors: {
     amarelo: '#FFF30F',
     roxoPadrao: '#6743AA',
+    roxoSecundario: '#A799B7',
+    roxoEscuro: '#3A2A58',
     preto: '#000000',
     branco: '#FBFFF1',
-    roxoSecundario: '#A799B7',
     vermelhoAviso: '#DA2222',
     cinza: '#B3B3B3',
   },
