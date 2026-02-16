@@ -1,23 +1,20 @@
 import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { theme } from '../../theme';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import CustomButton from '../../components/ui/Buttons';
 import type { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { AuthStackParamList } from '../../navigation';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import CustomButton from '../../components/ui/Buttons';
+import { theme } from '../../theme';
 
 type WelcomeScreenNavigationProp = NativeStackNavigationProp<AuthStackParamList, 'Welcome'>;
 type Props = { navigation: WelcomeScreenNavigationProp };
 
 export default function WelcomeScreen({ navigation}: Props) {
   return (
-    // SafeAreaView evita que o conteúdo fique embaixo da barra de status
     <SafeAreaView style={styles.container}>
       <ScrollView
         showsVerticalScrollIndicator={false}
-        // Usamos contentContainerStyle para o padding e alinhamento interno
-        contentContainerStyle={styles.mainContent}
-      >
+        contentContainerStyle={styles.mainContent}>
         {/* Mensagem de Boas Vindas */}
         <View style={styles.boasVindas}>
           <Image
@@ -25,7 +22,7 @@ export default function WelcomeScreen({ navigation}: Props) {
             style={styles.logo}
             resizeMode="contain"
           />
-          <Text style={styles.textoIntro}>Seja bem-vindo(a) ao BOlência!</Text>
+          <Text style={styles.textoIntro}>Seja bem-vindo(a) ao BOLência!</Text>
         </View>
 
         {/* Aqui entrarão seus botões de Login/Cadastro depois */}
@@ -64,8 +61,8 @@ const styles = StyleSheet.create({
     marginBottom: 48,
   },
   logo: {
-    width: 150,
-    height: 145,
+    width: 120,
+    height: 120,
     marginBottom: 28,
   },
   textoIntro: {
