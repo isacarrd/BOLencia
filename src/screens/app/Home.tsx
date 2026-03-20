@@ -1,13 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   Text,
   FlatList,
   TouchableOpacity,
   StyleSheet,
+  Alert,
 } from 'react-native';
+import { supabase } from '../../services/supabase'; // Ajuste o path
+import { theme } from '../../theme'; // Ajuste o path
 
 export default function HomeScreen() {
+  const [userName, setUserName] = useState('Empreendedor');
+
+  // 1. Buscar o nome do usuário logado
+  useEffect(() => {
+    async function getProfile() {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user?.user_metadata?.full_name) {
+        // Pega apenas o primeiro nome para o header
+        const firstName = user.user_metadata.full_name.split(' ')[0];
+        setUserName(firstName);
+      }
+    }
+    getProfile();
+  }, []);
+
+  // 2. Função de Logout
+  const handleLogout = () => {
+    Alert.alert('Sair', 'Deseja realmente encerrar a sessão?', [
+      { text: 'Cancelar', style: 'cancel' },
+      {
+        text: 'Sair',
+        onPress: async () => await supabase.auth.signOut(),
+        style: 'destructive',
+      },
+    ]);
+  };
+
   const boletos = [
     {
       id: '1',
@@ -30,8 +62,12 @@ export default function HomeScreen() {
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerTop}>
-          <Text style={styles.headerTitle}>Olá, Empreendedor!</Text>
-          <View style={styles.profilePlaceholder} />
+          <Text style={styles.headerTitle}>Olá, {userName}!</Text>
+
+          {/* Botão de Perfil que agora faz Logout */}
+          <TouchableOpacity style={styles.profileButton} onPress={handleLogout}>
+            <Text style={{ fontSize: 16 }}>👤</Text>
+          </TouchableOpacity>
         </View>
 
         <View>
@@ -51,7 +87,6 @@ export default function HomeScreen() {
             <View style={styles.card}>
               <View>
                 <Text style={styles.cardName}>{item.nome}</Text>
-                {/* Lógica de cor condicional */}
                 <Text
                   style={[
                     styles.cardDate,
@@ -78,110 +113,98 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f9fafb',
+    backgroundColor: theme.colors.preto, // Usando seu tema
   },
   header: {
-    backgroundColor: '#2563eb',
-    paddingTop: 48,
-    paddingBottom: 24,
+    backgroundColor: theme.colors.roxoEscuro, // Usando seu tema
+    paddingTop: 60,
+    paddingBottom: 30,
     paddingHorizontal: 24,
-    borderBottomLeftRadius: 24,
-    borderBottomRightRadius: 24,
-    elevation: 8,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 5,
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
   },
   headerTop: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: 20,
   },
   headerTitle: {
-    color: '#ffffff',
-    fontSize: 20,
-    fontWeight: 'bold',
+    color: theme.colors.branco,
+    fontSize: 22,
+    fontFamily: theme.fonts.bold,
   },
-  profilePlaceholder: {
-    width: 32,
-    height: 32,
-    backgroundColor: '#3b82f6',
-    borderRadius: 16,
+  profileButton: {
+    width: 40,
+    height: 40,
+    backgroundColor: theme.colors.roxoSecundario,
+    borderRadius: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   balanceLabel: {
-    color: '#dbeafe',
+    color: '#CCC',
     fontSize: 14,
   },
   balanceValue: {
-    color: '#ffffff',
-    fontSize: 30,
-    fontWeight: '800',
+    color: theme.colors.amarelo, // Destaque para o valor
+    fontSize: 32,
+    fontFamily: theme.fonts.bold,
   },
   listContainer: {
     flex: 1,
     paddingHorizontal: 24,
-    marginTop: 24,
+    marginTop: 20,
   },
   listTitle: {
-    color: '#1f2937',
-    fontWeight: 'bold',
+    color: theme.colors.branco,
+    fontFamily: theme.fonts.bold,
     fontSize: 18,
     marginBottom: 16,
   },
   card: {
-    backgroundColor: '#ffffff',
+    backgroundColor: '#1A1A1A', // Card escuro para combinar com o fundo
     padding: 16,
-    borderRadius: 12,
+    borderRadius: 15,
     marginBottom: 12,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     borderLeftWidth: 4,
-    borderLeftColor: '#3b82f6',
-    elevation: 2,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+    borderLeftColor: theme.colors.roxoSecundario,
   },
   cardName: {
-    fontWeight: '600',
-    color: '#1f2937',
+    color: theme.colors.branco,
     fontSize: 16,
+    fontFamily: theme.fonts.bold,
   },
   cardDate: {
-    color: '#6b7280',
+    color: '#999',
   },
   dateAlert: {
-    color: '#ef4444',
+    color: theme.colors.vermelhoAviso,
     fontWeight: 'bold',
   },
   cardValue: {
-    fontWeight: 'bold',
-    color: '#1f2937',
+    color: theme.colors.branco,
     fontSize: 18,
+    fontFamily: theme.fonts.bold,
   },
   fab: {
     position: 'absolute',
-    bottom: 24,
-    right: 24,
-    width: 56,
-    height: 56,
-    backgroundColor: '#2563eb',
-    borderRadius: 28,
+    bottom: 30,
+    right: 30,
+    width: 60,
+    height: 60,
+    backgroundColor: theme.colors.roxoSecundario,
+    borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    elevation: 5,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 3,
+    elevation: 8,
   },
   fabIcon: {
-    color: '#ffffff',
-    fontSize: 30,
-    paddingBottom: 4,
+    color: theme.colors.branco,
+    fontSize: 35,
+    lineHeight: 40,
   },
 });
