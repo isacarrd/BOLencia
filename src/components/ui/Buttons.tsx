@@ -6,6 +6,7 @@ type ButtonProps = {
   title: string;
   onPress: (event: GestureResponderEvent) => void;
   type?: 'filled' | 'outlined'; // tipos de botão
+  disabled?: boolean; // para desabilitar o botão
 };
 
 const CustomButton: React.FC<ButtonProps> = ({ 
@@ -34,6 +35,7 @@ const CustomButton: React.FC<ButtonProps> = ({
 
 const styles = StyleSheet.create({
   button: {
+    flex: 1,
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 70,
