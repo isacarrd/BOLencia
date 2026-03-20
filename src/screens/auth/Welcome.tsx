@@ -35,9 +35,7 @@ export default function WelcomeScreen({ navigation}: Props) {
           <CustomButton
             title="Cadastrar-se"
             type="outlined"
-            onPress={() => {
-              // Navegação para a tela de Cadastro
-            }}
+            onPress={() => { navigation.navigate('Register') }}
           />
         </View>
       </ScrollView>
