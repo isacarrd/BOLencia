@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { supabase } from '../services/supabase';
-import { View, ActivityIndicator } from 'react-native';
+import { Session } from '@supabase/supabase-js';
+import { View, ActivityIndicator, Text } from 'react-native';
 import AuthStack from './AuthStack';
-/* import AppStack from './AppStack' */
+import AppStack from './AppStack'
+import { theme } from '../theme';
 
 export type AuthStackParamList = {
   Welcome: undefined;
@@ -21,32 +23,43 @@ export type AppStackParamList = {
 };
 
 export default function Routes() {
-  const [user, setUser] = useState<any>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
+
   useEffect(() => {
+    // 1. Pega a sessão inicial (local storage/MMKV)
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
+      setSession(session);
       setLoading(false);
     });
+
+    // 2. Escuta mudanças (Login/Logout)
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
+      setSession(session);
     });
+
     return () => subscription.unsubscribe();
   }, []);
+
   if (loading) {
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        {' '}
-        <ActivityIndicator size="large" color="#2563eb" />{' '}
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: theme.colors.preto,
+        }}
+      >
+        <ActivityIndicator size="large" color={theme.colors.roxoSecundario} />
       </View>
     );
   }
-  return (
-    <NavigationContainer theme={DefaultTheme}>
-      {/* {user ? <AppStack /> : <AuthStack />} */}
-      <AuthStack/>
-    </NavigationContainer>
-  );
+return (
+  <NavigationContainer theme={DefaultTheme}>
+    {session ? <AuthStack /> : <AppStack />}
+  </NavigationContainer>
+);
 }
