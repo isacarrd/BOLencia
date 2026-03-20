@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
-/* import LoginScreen from '../screens/auth/Login'; */
 import LoginScreen from '../screens/auth/Login';
+import RegisterScreen from '../screens/auth/Register';
 import WelcomeScreen from '../screens/auth/Welcome';
 import { theme } from '../theme';
 import { AuthStackParamList } from './index';
@@ -23,6 +23,15 @@ export default function AuthStack() {
       <Auth.Screen
         name="Login"
         component={LoginScreen}
+        options={{
+          headerStyle: { backgroundColor: theme.colors.preto },
+          headerTintColor: theme.colors.branco,
+          title: '',
+        }}
+      />
+      <Auth.Screen
+        name="Register"
+        component={RegisterScreen}
         options={{
           headerStyle: { backgroundColor: theme.colors.preto },
           headerTintColor: theme.colors.branco,
